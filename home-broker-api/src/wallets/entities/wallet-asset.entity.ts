@@ -4,7 +4,7 @@ import crypto from 'crypto';
 import { WalletDocument } from './wallet.entity';
 import { Asset, AssetDocument } from 'src/assets/entities/asset.entity';
 
-export type WalletAssetAssetDocument = HydratedDocument<WalletAsset>;
+export type WalletAssetDocument = HydratedDocument<WalletAsset>;
 
 @Schema({ timestamps: true })
 export class WalletAsset {

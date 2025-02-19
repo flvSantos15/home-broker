@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Repositório do Nest.js (back-end do home broker)
+Repositório do Next.js (front-end do home broker)
 
 ## Requerimentos
 
@@ -19,7 +19,7 @@ npm install
 Rode o servidor:
 
 ```bash
-npm run start:dev
+npm run dev
 ```
 
-As especificações das chamadas HTTP estão no arquivo `api.http`. Você pode usar a extensão `REST Client` do VSCode para fazer as chamadas.
+Tenho o Nest.js funcionando antes para rodar o front-end.
