@@ -23,8 +23,6 @@ export default async function MyWallet({
   const { wallet_id } = await searchParams
   const wallet = await getMyWallet(wallet_id)
 
-  // Parei no 53:54
-
   return (
     <div className="flex flex-col space-y-5 flex-grow">
       <article className="format">
@@ -40,12 +38,13 @@ export default async function MyWallet({
             <TableHeadCell>Comprar/Vender</TableHeadCell>
           </TableHead>
           <TableBody>
-            {wallet.assets.map((asset) => {
+            {wallet.assets.map((asset, index) => {
               return (
-                <TableRow key={asset._id}>
+                <TableRow key={index}>
                   <TableCell>
-                    <div>
-                      <div>
+                    <div className="flex space-x-1">
+                      <div className="content-center">
+                        {/* {asset.asset.image_url} */}
                         <Image
                           alt={asset.asset.symbol}
                           src={asset.asset.image_url}
@@ -54,7 +53,7 @@ export default async function MyWallet({
                         />
                       </div>
 
-                      <div>
+                      <div className="flex flex-col text-sm">
                         <span>{asset.asset.name}</span>
                         <span>{asset.asset.symbol}</span>
                       </div>
