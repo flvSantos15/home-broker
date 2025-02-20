@@ -4,15 +4,16 @@ POST http://localhost:3000/assets
 Content-Type: application/json
 
 {
-  "name": "Meta",
-  "symbol": "M1",
-  "price": 100,
-  "image": "MT.png"
+  "name": "NVidia",
+  "symbol": "NVDA",
+  "price": 13000,
+  "image": "NVDA.png"
 }
 
 ###
 
-@assetId = {{ createAsset.response.body._id }}
+# @assetId = {{ createAsset.response.body._id }}
+@assetId = 3491734c-4aa4-4bdf-9f56-be6417ba70fd
 
 ###
 GET http://localhost:3000/assets
@@ -26,7 +27,8 @@ POST http://localhost:3000/wallets
 
 ###
 
-@walletId = {{ createWallet.response.body._id }}
+# @walletId = {{ createWallet.response.body._id }}
+@walletId = d3c6c8b4-727b-446c-a282-ea807c1d745d
 
 ###
 GET http://localhost:3000/wallets
@@ -40,7 +42,7 @@ Content-Type: application/json
 
 {
   "assetId": "{{ assetId }}",
-  "shares": 100
+  "shares": 145
 }
 
 ###
@@ -50,8 +52,8 @@ Content-Type: application/json
 {
   "walletId": "{{ walletId }}",
   "assetId": "{{ assetId }}",
-  "shares": 10,
-  "price": 100,
+  "shares": 15,
+  "price": 50,
   "type": "BUY"
 }
 
