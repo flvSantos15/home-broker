@@ -6,7 +6,8 @@ export async function getAsset(symbol: string): Promise<Asset> {
   return response.json()
 }
 
-// Parei em 1:23:05
+// Parei em:
+// 1:23:50
 
 export default async function AssetDasboard({
   params
