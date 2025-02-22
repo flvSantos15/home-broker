@@ -1,14 +1,10 @@
 import { AssetShow } from "@/components/AssetShow"
 import { OrderForm } from "@/components/OrderForm"
 import { TabsItem } from "@/components/Tabs"
-import { Asset, OrderType } from "@/models"
+import { OrderType } from "@/models"
 import { Card, Tabs } from "flowbite-react"
 import { AssetChartComponent } from "./AssetChartComponent"
-
-export async function getAsset(symbol: string): Promise<Asset> {
-  const response = await fetch(`http://localhost:3000/assets/${symbol}`)
-  return response.json()
-}
+import { getAsset } from "@/queries/queries"
 
 export default async function AssetDasboard({
   params,

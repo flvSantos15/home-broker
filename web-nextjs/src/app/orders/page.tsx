@@ -1,4 +1,3 @@
-import { Order } from "@/models"
 import {
   Table,
   TableBody,
@@ -10,13 +9,8 @@ import {
 import { AssetShow } from "@/components/AssetShow"
 import { OrderTypeBadge } from "@/components/OrderTypeBagde"
 import { OrderStatusBadge } from "@/components/OrderStatusBadge"
-
-export async function getOrders(walletId: string): Promise<Order[]> {
-  const response = await fetch(
-    `http://localhost:3000/orders?walletId=${walletId}`
-  )
-  return response.json()
-}
+import { WalletList } from "@/components/WalletList"
+import { getMyWallet, getOrders } from "@/queries/queries"
 
 export default async function OrdersListPage({
   searchParams
@@ -24,6 +18,17 @@ export default async function OrdersListPage({
   searchParams: Promise<{ wallet_id: string }>
 }) {
   const { wallet_id } = await searchParams
+
+  if (!wallet_id) {
+    return <WalletList />
+  }
+
+  const wallet = await getMyWallet(wallet_id)
+
+  if (!wallet) {
+    return <WalletList />
+  }
+
   const orders = await getOrders(wallet_id)
 
   return (
