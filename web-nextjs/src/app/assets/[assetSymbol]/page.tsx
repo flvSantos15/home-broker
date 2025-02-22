@@ -3,6 +3,7 @@ import { OrderForm } from "@/components/OrderForm"
 import { TabsItem } from "@/components/Tabs"
 import { Asset, OrderType } from "@/models"
 import { Card, Tabs } from "flowbite-react"
+import { AssetChartComponent } from "./AssetChartComponent"
 
 export async function getAsset(symbol: string): Promise<Asset> {
   const response = await fetch(`http://localhost:3000/assets/${symbol}`)
@@ -54,7 +55,9 @@ export default async function AssetDasboard({
           </Card>
         </div>
 
-        <div className="col-span-3 flex flex-grow"></div>
+        <div className="col-span-3 flex flex-grow">
+          <AssetChartComponent asset={asset} />
+        </div>
       </div>
     </div>
   )

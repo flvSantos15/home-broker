@@ -1,5 +1,5 @@
 import { Asset, OrderType } from "@/models"
-import { Label, TextInput } from "flowbite-react"
+import { Button, Label, TextInput } from "flowbite-react"
 
 interface IOrderFormProps {
   asset: Asset
@@ -11,7 +11,7 @@ interface IOrderFormProps {
 
 export function OrderForm({ asset, walletId, type }: IOrderFormProps) {
   const color = type === OrderType.BUY ? "text-bule-700" : "text-red-700"
-  const translatedType = type === OrderType.BUY ? "comprar" : "vender"
+  const translatedType = type === OrderType.BUY ? "compra" : "venda"
 
   return (
     <form>
@@ -20,7 +20,7 @@ export function OrderForm({ asset, walletId, type }: IOrderFormProps) {
       <input type="hidden" name="type" defaultValue={type} />
 
       <div>
-        <div>
+        <div className="mb-2">
           <Label htmlFor="shares" value="Quantidade" className={color}></Label>
         </div>
 
@@ -36,6 +36,28 @@ export function OrderForm({ asset, walletId, type }: IOrderFormProps) {
           color={type === OrderType.BUY ? "info" : "failure"}
         />
       </div>
+      <br />
+      <div>
+        <div className="mb-2">
+          <Label htmlFor="price" value="Preço R$" className={color}></Label>
+        </div>
+
+        <TextInput
+          id="price"
+          type="number"
+          name="price"
+          placeholder="Quantidade"
+          required
+          min={1}
+          step={1}
+          defaultValue={1}
+          color={type === OrderType.BUY ? "info" : "failure"}
+        />
+      </div>
+      <br />
+      <Button type="submit" color={type === OrderType.BUY ? "blue" : "failure"}>
+        Confirmar {translatedType}
+      </Button>
     </form>
   )
 }
