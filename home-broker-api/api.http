@@ -4,10 +4,10 @@ POST http://localhost:3000/assets
 Content-Type: application/json
 
 {
-  "name": "Google",
-  "symbol": "GGL",
-  "price": 16000,
-  "image": "GGL.png"
+  "name": "Meli",
+  "symbol": "M1",
+  "price": 120,
+  "image": "MELI.png"
 }
 
 ###

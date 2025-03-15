@@ -1,20 +1,37 @@
-import { Asset, OrderType } from "@/models"
-import { Button, Label, TextInput } from "flowbite-react"
+"use client";
+
+import { Asset, Order, OrderType } from "@/models";
+import { socket } from "@/socke-io";
+import { Button, Label, TextInput } from "flowbite-react";
+import { FormEvent } from "react";
+import { toast } from "react-toastify";
 
 interface IOrderFormProps {
-  asset: Asset
-  walletId: string
-  type: OrderType
+  asset: Asset;
+  walletId: string;
+  type: OrderType;
 }
 
-// Parei em 1:38:08
-
 export function OrderForm({ asset, walletId, type }: IOrderFormProps) {
-  const color = type === OrderType.BUY ? "text-bule-700" : "text-red-700"
-  const translatedType = type === OrderType.BUY ? "compra" : "venda"
+  const color = type === OrderType.BUY ? "text-bule-700" : "text-red-700";
+  const translatedType = type === OrderType.BUY ? "compra" : "venda";
+
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+
+    socket.connect();
+    const newOrder: Order = await socket.emitWithAck("orders/create", data);
+    toast(
+      `Ordem ${translatedType} de ${newOrder.shares} ações de  ${asset.symbol} criada com sucesso!`,
+      { type: "success", position: "top-right" }
+    );
+  }
 
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <input type="hidden" name="assetId" defaultValue={asset._id} />
       <input type="hidden" name="walleId" defaultValue={walletId} />
       <input type="hidden" name="type" defaultValue={type} />
@@ -59,5 +76,5 @@ export function OrderForm({ asset, walletId, type }: IOrderFormProps) {
         Confirmar {translatedType}
       </Button>
     </form>
-  )
+  );
 }

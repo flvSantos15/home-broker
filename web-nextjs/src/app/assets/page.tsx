@@ -1,3 +1,6 @@
+import { AssetShow } from "@/components/AssetShow";
+import { WalletList } from "@/components/WalletList";
+import { getAssets, getMyWallet } from "@/queries/queries";
 import {
   Button,
   Table,
@@ -5,30 +8,28 @@ import {
   TableCell,
   TableHead,
   TableHeadCell,
-  TableRow
-} from "flowbite-react"
-import { AssetShow } from "@/components/AssetShow"
-import { WalletList } from "@/components/WalletList"
-import { getAssets, getMyWallet } from "@/queries/queries"
+  TableRow,
+} from "flowbite-react";
+import Link from "next/link";
 
 export default async function AssetsListPage({
-  searchParams
+  searchParams,
 }: {
-  searchParams: Promise<{ wallet_id: string }>
+  searchParams: Promise<{ wallet_id: string }>;
 }) {
-  const { wallet_id } = await searchParams
+  const { wallet_id } = await searchParams;
 
   if (!wallet_id) {
-    return <WalletList />
+    return <WalletList />;
   }
 
-  const wallet = await getMyWallet(wallet_id)
+  const wallet = await getMyWallet(wallet_id);
 
   if (!wallet) {
-    return <WalletList />
+    return <WalletList />;
   }
 
-  const assets = await getAssets()
+  const assets = await getAssets();
 
   return (
     <div className="flex flex-col space-y-5 flex-grow">
@@ -52,14 +53,21 @@ export default async function AssetsListPage({
                   </TableCell>
                   <TableCell>R$ {asset.price}</TableCell>
                   <TableCell>
-                    <Button color="light">Comprar/Vender</Button>
+                    <Button
+                      className="w-fit"
+                      color="light"
+                      as={Link}
+                      href={`/assets/${asset.symbol}?wallet_id=${wallet_id}`}
+                    >
+                      Comprar/Vender
+                    </Button>
                   </TableCell>
                 </TableRow>
-              )
+              );
             })}
           </TableBody>
         </Table>
       </div>
     </div>
-  )
+  );
 }

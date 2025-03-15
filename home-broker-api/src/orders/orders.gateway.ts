@@ -10,7 +10,7 @@ type PayloadProps = {
   price: number;
 };
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: true })
 export class OrdersGateway {
   constructor(private ordersService: OrdersService) {}
 
