@@ -1,22 +1,28 @@
-import { AssetShow } from "@/components/AssetShow"
-import { OrderForm } from "@/components/OrderForm"
-import { TabsItem } from "@/components/Tabs"
-import { OrderType } from "@/models"
-import { Card, Tabs } from "flowbite-react"
-import { AssetChartComponent } from "./AssetChartComponent"
-import { getAsset } from "@/queries/queries"
+import { AssetShow } from "@/components/AssetShow";
+import { OrderForm } from "@/components/OrderForm";
+import { TabsItem } from "@/components/Tabs";
+import { OrderType } from "@/models";
+import { getAsset, getAssetDailies } from "@/queries/queries";
+import { Card, Tabs } from "flowbite-react";
+import { Time } from "lightweight-charts";
+import { AssetChartComponent } from "./AssetChartComponent";
 
 export default async function AssetDasboard({
   params,
-  searchParams
+  searchParams,
 }: {
-  params: Promise<{ assetSymbol: string }>
-  searchParams: Promise<{ wallet_id: string }>
+  params: Promise<{ assetSymbol: string }>;
+  searchParams: Promise<{ wallet_id: string }>;
 }) {
-  const { assetSymbol } = await params
-  const { wallet_id } = await searchParams
+  const { assetSymbol } = await params;
+  const { wallet_id } = await searchParams;
 
-  const asset = await getAsset(assetSymbol)
+  const asset = await getAsset(assetSymbol);
+  const assetDailies = await getAssetDailies(assetSymbol);
+  const chartData = assetDailies.map((daily) => ({
+    time: (Date.parse(daily.date) / 1000) as Time,
+    value: daily.price,
+  }));
 
   return (
     <div className="flex flex-col space-y-5 flex-grow">
@@ -52,9 +58,9 @@ export default async function AssetDasboard({
         </div>
 
         <div className="col-span-3 flex flex-grow">
-          <AssetChartComponent asset={asset} />
+          <AssetChartComponent asset={asset} data={chartData} />
         </div>
       </div>
     </div>
-  )
+  );
 }

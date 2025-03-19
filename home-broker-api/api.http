@@ -4,10 +4,10 @@ POST http://localhost:3000/assets
 Content-Type: application/json
 
 {
-  "name": "Meli",
-  "symbol": "M1",
-  "price": 120,
-  "image": "MELI.png"
+  "name": "NVidia",
+  "symbol": "NVDA",
+  "price": 123,
+  "image": "NVDA.png"
 }
 
 ###
@@ -19,7 +19,19 @@ Content-Type: application/json
 GET http://localhost:3000/assets
 
 ###
-GET http://localhost:3000/assets/A1
+GET http://localhost:3000/assets/M1
+
+###
+POST http://localhost:3000/assets/A1/dailies
+Content-Type: application/json
+
+{
+  "date": "2024/04/12",
+  "price": 100
+}
+
+###
+GET http://localhost:3000/assets/M1/dailies
 
 ###
 # @name createWallet
