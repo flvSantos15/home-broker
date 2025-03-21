@@ -58,8 +58,6 @@ func (b *Book) Trade() {
 	}
 }
 
-// Parei no 1:32:06
-
 func (b *Book) tryMatch(newOrder *Order, availableOrders, pedingOrders *orderQueue) {
 	for {
 		pontentialMatch := availableOrders.GetNextOrder()
@@ -79,6 +77,53 @@ func (b *Book) tryMatch(newOrder *Order, availableOrders, pedingOrders *orderQue
 			if pontentialMatch.PendingShares > 0 {
 				availableOrders.Add(pontentialMatch)
 			}
+
+			if newOrder.PendingShares == 0 {
+				break
+			}
 		}
 	}
+
+	if newOrder.PendingShares > 0 {
+		pedingOrders.Add(newOrder)
+	}
+}
+
+func (b *Book) pricesMatch(order, matchOrder *Order) bool {
+	if order.OrderType == "BUY" {
+		return matchOrder.Price <= order.Price
+	}
+
+	return matchOrder.Price >= order.Price
+}
+
+func (b *Book) createTransaction(incomingOrder *Order, matchedOrder *Order) *Transaction {
+	var buyOrder, sellOrder *Order
+
+	if incomingOrder.OrderType == "BUY" {
+		buyOrder, sellOrder = incomingOrder, matchedOrder
+	} else {
+		buyOrder, sellOrder = matchedOrder, incomingOrder
+	}
+
+	shares := incomingOrder.PendingShares
+	if incomingOrder.PendingShares > matchedOrder.PendingShares {
+		shares = matchedOrder.PendingShares
+	}
+
+	return NewTransaction(sellOrder, buyOrder, shares, matchedOrder.Price)
+}
+
+func (b *Book) recordTransaction(transaction *Transaction) {
+	b.Transactions = append(b.Transactions, transaction)
+	transaction.BuyingOrder.Transactions = append(transaction.BuyingOrder.Transactions, transaction)
+	transaction.SellingOrder.Transactions = append(transaction.SellingOrder.Transactions, transaction)
+}
+
+func (b *Book) processTransaction(transaction *Transaction) {
+	defer b.Wg.Done()
+	transaction.Process()
+	b.recordTransaction(transaction)
+	b.ProcessedOrders <- transaction.BuyingOrder
+	b.ProcessedOrders <- transaction.SellingOrder
 }
