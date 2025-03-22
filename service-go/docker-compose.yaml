@@ -6,6 +6,7 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:7.9.0
+    command: bash -c "sleep 30 && /etc/confluent/docker/run"
     depends_on:
       - zookeeper
     ports:

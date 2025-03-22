@@ -6,6 +6,7 @@ export type AssetDocument = HydratedDocument<Asset>;
 
 @Schema({
   timestamps: true,
+  optimisticConcurrency: true,
   collectionOptions: {
     changeStreamPreAndPostImages: {
       enabled: true,

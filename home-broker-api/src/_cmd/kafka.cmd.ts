@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '../app.module';
-import { ConfluentKafkaServer } from '../kafka/confluent-kafka.server';
+import { ConfluentKafkaServer } from '../kafka/confluent-kafka-server';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice(AppModule, {
@@ -10,8 +10,8 @@ async function bootstrap() {
       },
       consumer: {
         allowAutoTopicCreation: true,
-        sessionTimeout: 10000,
-        rebalanceTimeout: 10000,
+        sessionTimeout: 10000, // 10 seconds
+        rebalanceTimeout: 10000, // 10 seconds
       },
     }),
   });
