@@ -16,8 +16,6 @@ import {
 } from './entities/order.entity';
 import { Trade } from './entities/trade.entity';
 
-// Parei em 1:43:00
-
 @Injectable()
 export class OrdersService implements OnModuleInit {
   private kafkaProducer: kafkaLib.KafkaJS.Producer;
